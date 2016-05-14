@@ -2,7 +2,7 @@
 
 <%= yield :javascript %>
 
-<%= render "analytics" %>
+<%= analytics_init if GoogleAnalytics.valid_tracker? %>
 
 <% if Rails.env.test? %>
   <%= javascript_tag do %>

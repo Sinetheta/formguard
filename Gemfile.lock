@@ -97,6 +97,7 @@ GEM
       i18n
     globalid (0.3.6)
       activesupport (>= 4.1.0)
+    google-analytics-rails (1.1.0)
     hashdiff (0.3.0)
     high_voltage (3.0.0)
     honeybadger (2.6.0)
@@ -265,6 +266,7 @@ DEPENDENCIES
   factory_girl_rails
   flutie
   formulaic
+  google-analytics-rails
   high_voltage
   honeybadger
   jquery-rails

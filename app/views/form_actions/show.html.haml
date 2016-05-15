@@ -1,0 +1,4 @@
+%h1= @form_action.name
+
+%ul
+  = render partial: "/form_submissions/form_submission", collection: @form_action.form_submissions

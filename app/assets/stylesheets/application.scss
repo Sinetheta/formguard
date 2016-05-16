@@ -4,6 +4,11 @@
 
 @import "bourbon";
 @import "neat";
+
+@import "base/variables";
+
 @import "materialize";
 
 @import "refills/flashes";
+
+@import "views/layouts/application";

@@ -14,22 +14,6 @@
   %body{class: body_class}
     = render "flashes"
 
-    %ul#slide-out.side-nav.fixed
-      %li.logo
-        = link_to root_path, id: "logo-container", class: "brand-logo" do
-          = image_tag "formguard-logo.png"
-      %li.active
-        %a{href: "#!"}
-          First Sidebar Link
-      %li
-        %a{href: "#!"}
-          Second Sidebar Link
-          = link_to "#settings", class: "settings" do
-            %i.material-icons settings
-
-    %a.button-collapse.show-on-large{"data-activates" => "slide-out", href: "#"}
-      %i.material-icons menu
-
     = yield
 
     = render "javascript"

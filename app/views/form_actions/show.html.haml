@@ -1,4 +1,10 @@
 %h1= @form_action.name
 
-%ul
-  = render partial: "/form_submissions/form_submission", collection: @form_action.form_submissions
+- if @form_action.form_submissions.empty?
+  %p No submissions yet, send requests to
+  %code
+    %pre= @form_action.example_tag
+- else
+  %h2 Submissions
+  %ul
+    = render partial: "/form_submissions/form_submission", collection: @form_action.form_submissions

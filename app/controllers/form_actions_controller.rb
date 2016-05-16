@@ -5,7 +5,7 @@ class FormActionsController < ApplicationController
   end
 
   def show
-    @form_action = FormAction.find(params[:id])
+    @form_action = FormActionPresenter.new FormAction.find(params[:id])
   end
 
   def create
@@ -16,5 +16,11 @@ class FormActionsController < ApplicationController
     else
       render "index"
     end
+  end
+
+  private
+
+  def form_action_params
+    params.require(:form_action).permit(:name)
   end
 end

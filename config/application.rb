@@ -10,6 +10,7 @@ require "sprockets/railtie"
 Bundler.require(*Rails.groups)
 module Formguard
   class Application < Rails::Application
+    config.autoload_paths += %W(#{ config.root }/presenters)
     config.quiet_assets = true
     config.generators do |generate|
       generate.helper false

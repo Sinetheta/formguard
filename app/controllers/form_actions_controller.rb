@@ -1,5 +1,6 @@
 class FormActionsController < ApplicationController
   def index
+    @form_action = FormAction.new
     @form_actions = current_user.form_actions
   end
 

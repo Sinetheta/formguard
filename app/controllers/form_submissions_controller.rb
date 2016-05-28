@@ -3,8 +3,9 @@ class FormSubmissionsController < ApplicationController
 
   def create
     form_action = FormAction.find(params[:form_action_id])
-    submission = form_action.form_submissions.new({payload: payload})
+    submission = form_action.form_submissions.new(payload: payload)
     if submission.save
+      UserMailer.submission_notification(submission).deliver_now
       head :ok
     else
       head 500

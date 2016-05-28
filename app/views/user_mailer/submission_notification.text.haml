@@ -1,0 +1,4 @@
+= @greeting
+Your form titled "#{@action.name}" was submitted with the following data:
+
+= "{ " + @submission.payload.map{ |sublist| sublist.join(": ") }.join(",\n  ") + " }"

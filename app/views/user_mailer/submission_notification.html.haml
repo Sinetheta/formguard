@@ -1,0 +1,5 @@
+%p= @greeting
+%p= "Your form titled \"#{@action.name}\" was submitted with the following data:"
+
+
+%p= JSON.pretty_generate(@submission.payload)

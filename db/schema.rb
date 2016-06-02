@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160514230920) do
+ActiveRecord::Schema.define(version: 20160601165357) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -36,11 +36,13 @@ ActiveRecord::Schema.define(version: 20160514230920) do
 
   create_table "form_actions", id: :uuid, default: "uuid_generate_v4()", force: :cascade do |t|
     t.string   "name"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at",                    null: false
+    t.datetime "updated_at",                    null: false
     t.integer  "user_id"
+    t.boolean  "should_notify", default: false
   end
 
+  add_index "form_actions", ["name", "user_id"], name: "index_form_actions_on_name_and_user_id", unique: true, using: :btree
   add_index "form_actions", ["user_id"], name: "index_form_actions_on_user_id", using: :btree
 
   create_table "form_submissions", force: :cascade do |t|

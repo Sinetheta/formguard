@@ -15,6 +15,7 @@ class FormActionsController < ApplicationController
     if @form_action.save
       redirect_to @form_action
     else
+      flash[:danger] = "Oops! Something went wrong"
       render "index"
     end
   end

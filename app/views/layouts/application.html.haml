@@ -11,6 +11,9 @@
     = csrf_meta_tags
 
   %body{class: body_class}
+    %ul
+      = render 'devise/menu/login_items'
+
     = render "flashes"
 
     = yield

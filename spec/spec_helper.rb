@@ -1,5 +1,6 @@
 if ENV.fetch("COVERAGE", false)
   require "simplecov"
+  puts "required simplecov"
 
   if ENV["CIRCLE_ARTIFACTS"]
     dir = File.join(ENV["CIRCLE_ARTIFACTS"], "coverage")

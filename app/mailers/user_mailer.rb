@@ -9,8 +9,7 @@ class UserMailer < ApplicationMailer
     @submission = submission
     @action = submission.form_action
     @user = @action.user
-    @greeting = "Hi #{@user.email},"
-
-    mail(to: @user.email, subject: "Submission notification")
+    @greeting = "Hi there,\n#{@user.email} asked that you be notified!"
+    mail(bcc: @action.emails, subject: "Submission notification")
   end
 end

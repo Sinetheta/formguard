@@ -1,10 +1,21 @@
-%h1= @form_action.name
-
-- if @form_action.form_submissions.empty?
-  %p No submissions yet, send requests to
-  %code
-    %pre= @form_action.example_tag
+%h1= "Form: " + @form_action.name
+%h2 Mailing list:
+%ul
+- @form_action.emails.each do |address|
+  %li #{address}
+- if @form_action.should_notify?
+  %h2 Notifications are enabled
 - else
-  %h2 Submissions
+  %h2 Notifications are disabled
+
+
+%h2 Sent submissions to:
+%code
+  %pre= @form_action.example_tag
+
+%h2 Submissions:
+- if @form_action.form_submissions.empty?
+  %p No submissions yet!
+- else
   %ul
     = render partial: "/form_submissions/form_submission", collection: @form_action.form_submissions

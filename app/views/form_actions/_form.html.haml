@@ -5,4 +5,8 @@
   = f.label :should_notify
   = f.check_box :should_notify
 
+  = f.label :emails, "Addresses to Notify"
+  = text_field_tag("emails[]", current_user.email , class:'mailing-list')
+  = text_field_tag("emails[]",nil , class:'mailing-list')
+
   = submit_tag('Create Form')

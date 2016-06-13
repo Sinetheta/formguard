@@ -39,6 +39,7 @@ ActiveRecord::Schema.define(version: 20160601165357) do
     t.datetime "created_at",                    null: false
     t.datetime "updated_at",                    null: false
     t.integer  "user_id"
+    t.text     "emails",        default: [],                 array: true
     t.boolean  "should_notify", default: false
   end
 

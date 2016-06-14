@@ -1,5 +1,6 @@
 class FormSubmissionsController < ApplicationController
   protect_from_forgery with: :null_session
+  load_and_authorize_resource
 
   def create
     form_action = FormAction.find(params[:form_action_id])

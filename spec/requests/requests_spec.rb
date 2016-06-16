@@ -19,7 +19,7 @@ RSpec.describe "Form creation", type: :request do
       end
     end
 
-    context "when user not signed in", pending: "user auth completion" do
+    context "when user not signed in"do
       before { logout(user) }
 
       context "with valid params" do
@@ -45,7 +45,7 @@ RSpec.describe "Form creation", type: :request do
       end
     end
 
-    context "when user not signed in", pending: "user auth completion" do
+    context "when user not signed in"do
       before { logout(user) }
       it { is_expected.to redirect_to(new_user_session_path) }
     end
@@ -60,13 +60,13 @@ RSpec.describe "Form creation", type: :request do
       it { is_expected.to render_template("show") }
     end
 
-    context "when user not signed in", pending: "user auth completion" do
+    context "when user not signed in"do
       before { logout(user) }
       it { is_expected.to redirect_to(new_user_session_path) }
     end
   end
 
-  describe "denies access to other user's data", pending: "user auth completion" do
+  describe "denies access to other user's data"do
     let(:other_user) { create(:user) }
 
     context "when accessing form_action_path" do

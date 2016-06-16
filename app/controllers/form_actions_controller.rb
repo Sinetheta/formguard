@@ -2,8 +2,12 @@ class FormActionsController < ApplicationController
   load_and_authorize_resource 
 
   def index
-    @form_action = FormAction.new
-    @form_actions = current_user.form_actions
+    if current_user
+      @form_action = FormAction.new
+      @form_actions = current_user.form_actions
+    else
+      redirect_to new_user_session_path 
+    end
   end
 
   def show

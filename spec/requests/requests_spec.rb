@@ -74,10 +74,6 @@ RSpec.describe "Form creation", type: :request do
 
       context "when user signed in" do
         before { login_as(other_user) }
-        it "returns a 403 status code" do
-          subject
-          expect(response).to have_http_status(403)
-        end
         it { is_expected.to redirect_to(authenticated_root_path) }
       end
 
@@ -85,11 +81,6 @@ RSpec.describe "Form creation", type: :request do
         before do
           logout(other_user)
           logout(user)
-        end
-
-        it "returns a 401 status code" do
-          subject
-          expect(response).to have_http_status(401)
         end
         it { is_expected.to redirect_to(new_user_session_path) }
       end
@@ -101,22 +92,16 @@ RSpec.describe "Form creation", type: :request do
       context "when user signed in" do
         before { login_as(other_user) }
 
-        it "returns a 403 status code" do
+        it "returns a 200 status code" do
           subject
-          expect(response).to have_http_status(403)
+          expect(response).to have_http_status(200)
         end
-        it { is_expected.to redirect_to(authenticated_root_path) }
       end
 
       context "when user not signed in" do
         before do
           logout(other_user)
           logout(user)
-        end
-
-        it "returns a 401 status code" do
-          subject
-          expect(response).to have_http_status(401)
         end
         it { is_expected.to redirect_to(new_user_session_path) }
       end

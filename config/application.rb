@@ -27,3 +27,7 @@ module Formguard
     config.active_job.queue_adapter = :delayed_job
   end
 end
+
+Rails.application.config.to_prepare do
+  Rails.application.eager_load!
+end

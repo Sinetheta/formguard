@@ -1,0 +1,6 @@
+= form_for(@form_submission, url: form_action_form_submissions_path) do |f|
+  = f.label :payload
+  = f.text_field :payload
+      
+  = submit_tag 'Submit Form'
+

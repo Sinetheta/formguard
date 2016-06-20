@@ -22,10 +22,15 @@ class WebHooksController < ApplicationController
     @web_hook = @webhookable.web_hooks.new(web_hook_params)
 
     if @web_hook.save
-      #redirect_to web_hook_path @web_hook
+      redirect_to web_hook_path @web_hook
     else
       flash[:danger] = "Opps! Something went wrong"
-      render "index"
+      render "web_hooks/new"
     end
+  end
+
+  private
+  def web_hook_params
+    params.require(:web_hook).permit(:event_type, :url)
   end
 end

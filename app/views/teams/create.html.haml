@@ -1,2 +1,5 @@
-%h1 Team#create
-%p Find me in app/views/team/create.html.haml
+= form_for team_create_path do |f|
+  = f.label :name
+  = f.text_field :name
+
+  = f.submit 'Create'

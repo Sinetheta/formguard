@@ -11,8 +11,8 @@ RSpec.describe "Team requests:", type: :request do
     subject { get "/forms/#{action.id}" }
 
     context "when signed in user belongs to team" do
-      before do
-        login_as(user)
+      before do 
+        login_as(user) 
         team.members << user
       end
 

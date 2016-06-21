@@ -9,8 +9,8 @@ RSpec.describe User, type: :model do
   it { is_expected.to have_many(:form_actions) }
   
   it "can belong to more than one team" do
-    team.users << user
-    other_team.users << user
+    team.members << user
+    other_team.members << user
     expect(user.teams.length).to eq(2)
   end
    

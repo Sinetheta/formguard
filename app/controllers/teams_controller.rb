@@ -1,5 +1,9 @@
 class TeamsController < ApplicationController
 
+  def index
+    @teams = current_user.teams
+  end
+
   def create
     @team = Team.create(team_params)
     if @team.save

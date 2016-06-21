@@ -8,13 +8,22 @@ RSpec.describe "Form creation", type: :request do
     context "when user signed in" do
       before { login_as(user) }
 
-      context "with valid params" do
-        let(:valid_attributes) { {emails: action.emails, form_action:{name:action.name,
-                                                                      should_notify: "1"}} }
-        subject { post "/forms", valid_attributes }
+      subject { post "/forms", params }
 
+      context "with valid params" do
+        let(:params) { {emails: ["me@me.com"], form_action:{name:"example",
+                                                                      should_notify: "1"}} }
         it "creates a new FormAction" do
           expect { subject }.to change(FormAction, :count).by(1)
+        end
+      end
+
+      context "with invalid params" do
+        let(:params) { {emails: ["me@me.com"], form_action:{name:"",
+                                                                      should_notify: "1"}} }
+
+        it "doesn't create a new FormAction" do
+          expect { subject }.to change(FormAction, :count).by(0)
         end
       end
     end

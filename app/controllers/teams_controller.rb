@@ -1,4 +1,6 @@
 class TeamsController < ApplicationController
+  before_action :authenticate_user!
+  load_and_authorize_resource
 
   def index
     @teams = current_user.teams
@@ -25,5 +27,11 @@ class TeamsController < ApplicationController
   def team_params
     params.require(:team).permit(:name)
   end
-  
+
+	def authenticate_user!
+		unless current_user
+			redirect_to new_user_session_path, error: "You need to be signed in"
+		end
+	end 
+
 end

@@ -1,6 +1,6 @@
 class FormActionsController < ApplicationController
   load_and_authorize_resource
-  before_filter :authenticate_user!
+  before_action :authenticate_user!
 
   def index
     @form_actions = current_user.form_actions

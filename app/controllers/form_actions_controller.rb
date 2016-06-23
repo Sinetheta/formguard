@@ -34,6 +34,11 @@ class FormActionsController < ApplicationController
 
   end
 
+  def destroy
+    @form_action.destroy
+    redirect_to form_actions_path
+  end
+
   private
 
   def form_action_params

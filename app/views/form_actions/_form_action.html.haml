@@ -1,1 +1,4 @@
-%li= link_to form_action.name, form_action
+%li
+  = link_to(form_action.name, form_action)
+  |
+  = link_to("Delete", form_action, method: :delete, data: {confirm: "Are you sure?"})

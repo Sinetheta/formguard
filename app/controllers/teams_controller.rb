@@ -20,6 +20,7 @@ class TeamsController < ApplicationController
   def show
     team = Team.find(params[:id])
     @members = team.members
+    @form_actions = team.form_actions
   end
 
   private
@@ -28,10 +29,9 @@ class TeamsController < ApplicationController
     params.require(:team).permit(:name)
   end
 
-	def authenticate_user!
-		unless current_user
-			redirect_to new_user_session_path, error: "You need to be signed in"
-		end
-	end 
-
+  def authenticate_user!
+    unless current_user
+      redirect_to new_user_session_path, error: "You need to be signed in"
+    end
+  end
 end

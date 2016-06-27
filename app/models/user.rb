@@ -10,4 +10,6 @@ class User < ActiveRecord::Base
   has_many :teams, through: :memberships
   has_many :invitations, class_name: 'Invite', foreign_key: 'recipient_id'
   has_many :sent_invites, class_name: 'Invite', foreign_key: 'sender_id'
+
+  attr_accessor :invite_token
 end

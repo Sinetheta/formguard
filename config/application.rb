@@ -12,6 +12,7 @@ module Formguard
   class Application < Rails::Application
     config.autoload_paths += %W(#{ config.root }/presenters)
     config.autoload_paths += %W(#{ config.root }/validators)
+    config.autoload_paths += %W(#{ config.root }/lib)
     config.quiet_assets = true
     config.generators do |generate|
       generate.helper false
@@ -26,8 +27,4 @@ module Formguard
     config.active_record.raise_in_transactional_callbacks = true
     config.active_job.queue_adapter = :delayed_job
   end
-end
-
-Rails.application.config.to_prepare do
-  Rails.application.eager_load!
 end

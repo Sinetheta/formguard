@@ -13,9 +13,12 @@
 %code
   %pre= @form_action.example_tag
 
+  
 %h2 Submissions:
 - if @form_action.form_submissions.empty?
   %p No submissions yet!
 - else
   %ul
     = render partial: "/form_submissions/form_submission", collection: @form_action.form_submissions
+      
+= link_to "Test a submission", new_form_action_form_submission_path(@form_action)

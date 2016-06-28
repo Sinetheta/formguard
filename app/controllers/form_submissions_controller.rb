@@ -7,7 +7,7 @@ class FormSubmissionsController < ApplicationController
     submission = form_action.form_submissions.new(payload: payload)
     if submission.save
       UserMailer.submission_notification(submission).deliver_now if form_action.should_notify?
-      head :ok
+      redirect_to form_action_path(form_action, id: params[:form_action_id])
     else
       head 500
     end
@@ -16,6 +16,6 @@ class FormSubmissionsController < ApplicationController
   private
 
   def payload
-    params.except(:controller, :action, :form_action_id)
+    params.except(:controller, :action, :form_action_id, :authenticity_token, :utf8, :commit)
   end
 end

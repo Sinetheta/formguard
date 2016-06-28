@@ -13,8 +13,8 @@ RSpec.describe FormSubmissionsController, type: :controller do
         expect{ subject }.to change { FormSubmission.count }.by(1)
       end
 
-      it "should return code 200" do
-        expect(subject.code).to eq("200")
+      it "should redirect to the form_action page" do
+        expect( subject ).to redirect_to "/forms/#{action.id}"
       end
 
       it "should exclude values from payload" do

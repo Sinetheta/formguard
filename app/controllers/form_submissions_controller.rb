@@ -7,7 +7,7 @@ class FormSubmissionsController < ApplicationController
     submission = form_action.form_submissions.new(payload: payload)
     if submission.save
       UserMailer.submission_notification(submission).deliver_now if form_action.should_notify?
-      redirect_to form_action_path(form_action, id: params[:form_action_id])
+      redirect_to form_action_path(form_action)
     else
       head 500
     end

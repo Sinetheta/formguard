@@ -5,6 +5,8 @@ Rails.application.routes.draw do
     resources :form_submissions, path: 's', only: [:create, :new]
   end
 
+  resources :teams
+
   authenticated :user do
     root 'form_actions#index', as: :authenticated_root
   end

@@ -1,4 +1,6 @@
 %h1= "Form: " + @form_action.name
+%h4 Owner: #{@form_action.belongs_to}
+
 %h2 Mailing list:
 %ul
 - @form_action.emails.each do |address|

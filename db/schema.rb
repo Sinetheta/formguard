@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160601165357) do
+ActiveRecord::Schema.define(version: 20160615222539) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -41,6 +41,7 @@ ActiveRecord::Schema.define(version: 20160601165357) do
     t.integer  "user_id"
     t.boolean  "should_notify", default: false
     t.text     "emails",        default: [],                 array: true
+    t.integer  "team_id"
   end
 
   add_index "form_actions", ["name", "user_id"], name: "index_form_actions_on_name_and_user_id", unique: true, using: :btree
@@ -55,6 +56,12 @@ ActiveRecord::Schema.define(version: 20160601165357) do
 
   add_index "form_submissions", ["form_action_id"], name: "index_form_submissions_on_form_action_id", using: :btree
 
+  create_table "teams", force: :cascade do |t|
+    t.string   "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "users", force: :cascade do |t|
     t.string   "email",                  default: "", null: false
     t.string   "encrypted_password",     default: "", null: false
@@ -68,6 +75,7 @@ ActiveRecord::Schema.define(version: 20160601165357) do
     t.inet     "last_sign_in_ip"
     t.datetime "created_at",                          null: false
     t.datetime "updated_at",                          null: false
+    t.integer  "team_id"
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree

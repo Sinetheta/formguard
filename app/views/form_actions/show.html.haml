@@ -1,6 +1,8 @@
 %h1= "Form: " + @form_action.name
 %h4 Owner: #{@form_action.belongs_to}
 
+=link_to "Create a webhook", new_form_action_web_hook_path(@form_action.id)
+
 %h2 Mailing list:
 %ul
 - @form_action.emails.each do |address|
@@ -11,16 +13,25 @@
   %h2 Notifications are disabled
 
 
+
 %h2 Sent submissions to:
 %code
   %pre= @form_action.example_tag
 
-  
+
 %h2 Submissions:
 - if @form_action.form_submissions.empty?
   %p No submissions yet!
 - else
   %ul
     = render partial: "/form_submissions/form_submission", collection: @form_action.form_submissions
-      
+
 = link_to "Test a submission", new_form_action_form_submission_path(@form_action)
+
+- if @form_action.web_hooks.length > 0
+  %h2 Web Hooks:
+  %ul
+    - @form_action.web_hooks.each do |web_hook|
+      %li
+        = link_to("#{web_hook.event_type} hook @#{web_hook.url}",
+          form_action_web_hook_path(@form_action, web_hook))

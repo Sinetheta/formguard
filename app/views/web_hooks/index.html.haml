@@ -1,0 +1,5 @@
+%h1
+  = "Web Hooks on #{@webhookable.name}"
+
+%ul
+  = render partial: "web_hook", collection: @web_hooks

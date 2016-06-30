@@ -3,6 +3,7 @@ Rails.application.routes.draw do
 
   resources :form_actions, path: 'forms', only: [:index, :show, :create] do
     resources :form_submissions, path: 's', only: [:create, :new]
+    resources :web_hooks
   end
 
   resources :teams
@@ -12,4 +13,5 @@ Rails.application.routes.draw do
   end
 
   root 'high_voltage/pages#show', id: 'home'
+
 end

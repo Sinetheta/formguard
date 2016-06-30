@@ -1,0 +1,11 @@
+%h1
+  = link_to(@webhookable.name, @webhookable) + " - #{@web_hook.event_type} Web Hook"
+
+%ul
+  - if @web_hook.active?
+    %li This webhook is active
+  - else
+    %li this webhook is not active
+
+  %li
+    = "webhook's target: #{@web_hook.url}"

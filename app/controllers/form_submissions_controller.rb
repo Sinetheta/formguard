@@ -7,6 +7,7 @@ class FormSubmissionsController < ApplicationController
     submission = form_action.form_submissions.new(payload: payload)
     if submission.save
       UserMailer.submission_notification(submission).deliver_now if form_action.should_notify?
+      form_action.web_hook_dispatcher.deliver(:submission, payload.to_json)
       head 200
     else
       head 500

@@ -1,0 +1,8 @@
+= form_for @web_hook, url: form_action_web_hooks_path(@webhookable.id, @web_hook.id) do |f|
+  = f.label :event_type
+  = f.select :event_type, options_for_select(['submission'])
+
+  = f.label :url
+  = f.url_field :url
+
+  = submit_tag("Create web hook")

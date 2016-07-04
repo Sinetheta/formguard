@@ -54,6 +54,7 @@ end
 
 group :test do
   gem "capybara-webkit"
+  gem "poltergeist"
   gem "database_cleaner"
   gem "formulaic"
   gem "launchy"

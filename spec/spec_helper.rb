@@ -11,6 +11,13 @@ if ENV.fetch("COVERAGE", false)
 end
 
 require "webmock/rspec"
+require "capybara/poltergeist"
+
+Capybara.register_driver :poltergiest do |app|
+  Capybara::Poltergeist::Driver.new(app, js_errors: true, debug: true)
+end
+
+Capybara.javascript_driver = :poltergeist
 
 # http://rubydoc.info/gems/rspec-core/RSpec/Core/Configuration
 RSpec.configure do |config|
@@ -25,16 +32,6 @@ RSpec.configure do |config|
 
   config.example_status_persistence_file_path = "tmp/rspec_examples.txt"
   config.order = :random
-  config.before(:suite) do
-    DatabaseCleaner.strategy = :transaction
-    DatabaseCleaner.clean_with(:truncation)
-  end
-
-  config.around(:each) do |example|
-    DatabaseCleaner.cleaning do
-      example.run
-    end
-  end
 
 end
 

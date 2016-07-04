@@ -9,6 +9,10 @@ class FormActionsController < ApplicationController
 
   def show
     @form_action = FormActionPresenter.new FormAction.find(params[:id])
+
+    # bucket the dates by day
+    dates = @form_action.form_submissions.order(:created_at).pluck(:created_at).map { |sub| sub.to_date.to_s }
+    @graph_data = dates.uniq.map { |d| {date: d, count: dates.count(d) } }.to_json
   end
 
   def create

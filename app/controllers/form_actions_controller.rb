@@ -24,6 +24,16 @@ class FormActionsController < ApplicationController
     end
   end
 
+  def update
+    if @form_action.update_attributes(form_action_params)
+      redirect_to @form_action
+    else
+      flash[:danger] = "Oops! Something went wrong"
+      render "edit"
+    end
+
+  end
+
   private
 
   def form_action_params

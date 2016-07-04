@@ -60,6 +60,35 @@ RSpec.describe "Form creation", type: :request do
     end
   end
 
+  describe "PUT#forms" do
+    context "when user signed in" do
+      context "with valid params" do
+        subject { put "/forms/#{action.id}", valid_attributes }
+        let(:valid_attributes) do
+          {emails: [user.email, "custom@email.com"], form_action:{name:"#{action.name}", should_notify:"1"}}
+        end
+        before { login_as(user) }
+
+        it { is_expected.to eq(302) }
+        it { is_expected.to redirect_to(action) }
+      end
+      context "with invalid params" do
+        subject { put "/forms/#{action.id}", invalid_attributes }
+        let(:invalid_attributes) do
+          {emails: [user.email, "custom@email.com"], form_action:{name:"", should_notify:"1"}}
+        end
+        before { login_as(user) }
+
+        it { is_expected.to eq(200) }
+        it { is_expected.to render_template("edit") }
+      end
+    end
+
+    context "when user not signed in" do
+      before { logout(user) }
+    end
+  end
+
 
   describe "GET form_action#show" do
     subject { get "/forms/#{action.id}" }

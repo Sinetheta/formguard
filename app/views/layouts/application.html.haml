@@ -12,11 +12,11 @@
 
   %body{class: body_class}
     %ul
-      = render 'devise/menu/login_items'
-
+      = render "layouts/header"
     = render "flashes"
 
-    = yield
+    %div.container
+      = yield
 
     = render "javascript"
     = render "css_overrides"

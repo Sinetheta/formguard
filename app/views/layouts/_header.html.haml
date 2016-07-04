@@ -12,7 +12,7 @@
           %li
             = link_to("My forms", form_actions_path)
           %li
-            = link_to("New form", "#")
+            = link_to("New form", new_form_action_path)
         - else
           - if !current_page?(controller: 'devise/sessions', action: 'new')
             %li

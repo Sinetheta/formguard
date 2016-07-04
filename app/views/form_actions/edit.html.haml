@@ -1,0 +1,13 @@
+= form_for @form_action, html: { class: "form_action_form" } do |f|
+  = f.label :name
+  = f.text_field :name
+
+  = f.label :should_notify
+  = f.check_box :should_notify
+
+  = f.label :emails, "Addresses to Notify"
+  - @form_action.emails.each do |address|
+    = text_field_tag("emails[]", address, class:"mailing-list")
+  = text_field_tag("emails[]", nil, class:"mailing-list")
+
+  = submit_tag("Save changes")

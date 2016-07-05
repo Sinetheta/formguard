@@ -8,6 +8,8 @@ Rails.application.routes.draw do
     resources :web_hooks
   end
 
+  resources :memberships, only: :destroy, as: 'delete_team_membership'
+
   resources :teams
 
   authenticated :user do

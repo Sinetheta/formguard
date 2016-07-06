@@ -1,7 +1,7 @@
 %h1= "Form: " + @form_action.name
 %h4 Owner: #{@form_action.belongs_to}
 
-=link_to "Create a webhook", new_form_action_web_hook_path(@form_action.id)
+=link_to "Create a webhook", new_form_action_web_hook_path(@form_action)
 |
 = link_to 'Edit', edit_form_action_path(@form_action)
 |

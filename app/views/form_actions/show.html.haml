@@ -28,7 +28,9 @@
   %svg#form-action-show-graph{"data-dates": @graph_data}
   %h2 Submissions data:
   %ul
-    = render partial: "/form_submissions/form_submission", collection: @form_action.form_submissions
+    = will_paginate @submissions, renderer: BootstrapPagination::Rails
+    = render partial: "/form_submissions/form_submission", collection: @submissions
+    = will_paginate @submissions, renderer: BootstrapPagination::Rails
 
 = link_to "Test a submission", new_form_action_form_submission_path(@form_action)
 

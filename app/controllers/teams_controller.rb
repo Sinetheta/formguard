@@ -10,6 +10,8 @@ class TeamsController < ApplicationController
     @team = Team.create(team_params)
     if @team.save
       @team.members << current_user
+      current_user.add_role :owner, @team
+      current_user.add_role :admin, @team
       flash[:notice] = "Team created!"
       redirect_to authenticated_root_path
     else

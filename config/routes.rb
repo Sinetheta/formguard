@@ -8,6 +8,7 @@ Rails.application.routes.draw do
     resources :web_hooks
   end
 
+  resources :form_submissions, path: 'submissions', only: [:update]
   resources :memberships, only: :destroy, as: 'delete_team_membership'
 
   resources :teams do

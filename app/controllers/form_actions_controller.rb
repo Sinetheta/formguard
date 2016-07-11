@@ -13,6 +13,9 @@ class FormActionsController < ApplicationController
     # bucket the dates by day
     dates = @form_action.form_submissions.order(:created_at).pluck(:created_at).map { |sub| sub.to_date.to_s }
     @graph_data = dates.uniq.map { |d| {date: d, count: dates.count(d) } }.to_json
+    @submissions = FormSubmission
+      .where(form_action_id: @form_action.id)
+      .paginate(page: params[:page], per_page: params[:per_page] ||= 25)
   end
 
   def create

@@ -26,7 +26,29 @@ RSpec.configure do |config|
   end
   config.infer_base_class_for_anonymous_controllers = false
   config.infer_spec_type_from_file_location!
+
+# Allow JS specs to work.
   config.use_transactional_fixtures = false
+
+  config.before(:suite) do
+    DatabaseCleaner.clean_with(:truncation)
+  end
+
+  config.around(:each) do |example|
+    DatabaseCleaner.strategy =
+      if example.metadata[:js]
+        :truncation
+      else
+        :transaction
+      end
+    DatabaseCleaner.start
+    example.run
+    if example.metadata[:js]
+      Capybara.reset_sessions!
+    else
+      DatabaseCleaner.clean
+    end
+  end
 end
 
 ActiveRecord::Migration.maintain_test_schema!

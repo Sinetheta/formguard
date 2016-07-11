@@ -21,11 +21,12 @@
 %code
   %pre= @form_action.example_tag
 
-
-%h2 Submissions:
 - if @form_action.form_submissions.empty?
   %p No submissions yet!
 - else
+  %h2 Submissions over time:
+  %svg#form-action-show-graph{"data-dates": @graph_data}
+  %h2 Submissions data:
   %ul
     = render partial: "/form_submissions/form_submission", collection: @form_action.form_submissions
 

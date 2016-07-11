@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160705174115) do
+ActiveRecord::Schema.define(version: 20160711222607) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -36,13 +36,12 @@ ActiveRecord::Schema.define(version: 20160705174115) do
 
   create_table "form_actions", id: :uuid, default: "uuid_generate_v4()", force: :cascade do |t|
     t.string   "name"
-    t.datetime "created_at",                        null: false
-    t.datetime "updated_at",                        null: false
+    t.datetime "created_at",                    null: false
+    t.datetime "updated_at",                    null: false
     t.integer  "user_id"
-    t.boolean  "should_notify",     default: false
-    t.text     "emails",            default: [],                 array: true
+    t.text     "emails",        default: [],                 array: true
+    t.boolean  "should_notify", default: false
     t.integer  "team_id"
-    t.boolean  "allow_file_upload", default: false
   end
 
   add_index "form_actions", ["name", "user_id"], name: "index_form_actions_on_name_and_user_id", unique: true, using: :btree
@@ -51,21 +50,12 @@ ActiveRecord::Schema.define(version: 20160705174115) do
   create_table "form_submissions", force: :cascade do |t|
     t.uuid     "form_action_id"
     t.hstore   "payload"
-    t.datetime "created_at",     null: false
-    t.datetime "updated_at",     null: false
+    t.datetime "created_at",                     null: false
+    t.datetime "updated_at",                     null: false
+    t.boolean  "read",           default: false
   end
 
   add_index "form_submissions", ["form_action_id"], name: "index_form_submissions_on_form_action_id", using: :btree
-
-  create_table "invites", force: :cascade do |t|
-    t.string   "email"
-    t.integer  "team_id"
-    t.integer  "sender_id"
-    t.integer  "recipient_id"
-    t.string   "token"
-    t.datetime "created_at",   null: false
-    t.datetime "updated_at",   null: false
-  end
 
   create_table "memberships", force: :cascade do |t|
     t.integer  "user_id"

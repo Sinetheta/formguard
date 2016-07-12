@@ -99,4 +99,25 @@ RSpec.describe TeamsController, type: :controller do
       end
     end
   end
+
+  describe "POST #remove_admin" do
+    subject { post :remove_admin, id: team.id, user_id: member.id }
+    before { member.add_role(:admin, team) }
+
+    context "when current_user is not admin" do
+      it "should not revoke admin status" do
+        subject
+        expect(member.in? team.admins).to be_truthy
+      end
+    end
+
+    context "when current_user is an admin" do
+      before { allow(controller).to receive(:current_user) { admin } }
+
+      it "remove selected member's admin status" do
+        subject
+        expect(member.in? team.admins).to be_falsey
+      end
+    end
+  end
 end

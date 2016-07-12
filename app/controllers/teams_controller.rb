@@ -48,6 +48,12 @@ class TeamsController < ApplicationController
     redirect_to team_path(@team)
   end
 
+  def remove_admin
+    admin_user = User.find(params[:user_id])
+    admin_user.revoke :admin, @team
+    redirect_to team_path(@team)
+  end
+
   private
 
   def team_params

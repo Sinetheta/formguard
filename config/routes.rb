@@ -14,6 +14,7 @@ Rails.application.routes.draw do
     member do
       post 'grant_ownership'
       post 'make_admin'
+      post 'remove_admin'
     end
   end
 

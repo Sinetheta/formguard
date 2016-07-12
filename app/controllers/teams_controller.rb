@@ -34,6 +34,14 @@ class TeamsController < ApplicationController
     redirect_to authenticated_root_path
   end
 
+  def grant_ownership
+    new_owner = User.find(params[:user_id])
+    current_user.revoke :owner, @team
+    new_owner.grant :owner, @team
+    new_owner.grant :admin, @team
+    redirect_to team_path(@team)
+  end
+
   private
 
   def team_params

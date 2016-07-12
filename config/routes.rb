@@ -10,7 +10,11 @@ Rails.application.routes.draw do
 
   resources :memberships, only: :destroy, as: 'delete_team_membership'
 
-  resources :teams
+  resources :teams do
+    member do
+      post 'grant_ownership'
+    end
+  end
 
   authenticated :user do
     root 'form_actions#index', as: :authenticated_root

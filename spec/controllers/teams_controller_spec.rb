@@ -4,7 +4,8 @@ require 'cancan/matchers'
 RSpec.describe TeamsController, type: :controller do
   let(:creator) { create(:user) }
   let(:owner) { create(:user) }
-  let(:team) { create(:team, members: [owner]) }
+  let(:member) { create(:user) }
+  let(:team) { create(:team, members: [owner, member]) }
   
   before { owner.add_role(:owner, team) } 
 
@@ -46,6 +47,31 @@ RSpec.describe TeamsController, type: :controller do
           expect{ subject }.to change(Team, :count).by(0)
           expect(controller).to set_flash[:error]
         end
+      end
+    end
+  end
+
+  describe "POST #grant_ownership" do
+    subject { post :grant_ownership, id: team.id, user_id: member.id }
+
+    context "when current_user is not owner" do
+      it "should not transfer ownership" do
+        subject
+        expect(team.owner).to eq owner
+      end
+    end
+
+    context "when current_user is owner" do
+      before { allow(controller).to receive(:current_user) { owner } }
+
+      it "should transfer ownership to the specified member" do
+        subject
+        expect(team.owner).to eq member
+      end
+
+      it "should remove current_user as owner" do
+        subject
+        expect(owner.has_role?(:owner, team)).to be_falsey
       end
     end
   end

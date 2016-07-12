@@ -39,7 +39,7 @@ class FilteredFormSubmission
 
   def filter!(submissions)
     filters =
-      [start_date && method(:from), end_date && method(:to)]
+      [start_date && method(:from), end_date && method(:to), status && method(:with_status)]
 
     filters.each do |filter|
       submissions = filter.call(submissions) unless filter.nil?
@@ -58,4 +58,16 @@ class FilteredFormSubmission
     submissions.until_date(end_date)
   end
 
+  def with_status(submissions)
+    case status
+    when "unread"
+      @filters_applied += "status:unread"
+      submissions.unread
+    when "read"
+      @filters_applied += "status:read"
+      submissions.read
+    else
+    submissions
+    end
+  end
 end

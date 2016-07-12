@@ -6,6 +6,12 @@
       method: :delete,
       data: { confirm: "Are you sure?" }
 
+  - if can? :make_admin, @team
+    = link_to 'Make user admin', 
+      make_admin_team_path(@team, user_id: membership.member.id),
+      method: :post,
+      data: { confirm: "Are you sure?" }
+
   - if can? :grant_ownership, @team 
     = link_to 'Transfer ownership to this user', 
       grant_ownership_team_path(@team, user_id: membership.member.id),

@@ -5,9 +5,13 @@ RSpec.describe TeamsController, type: :controller do
   let(:creator) { create(:user) }
   let(:owner) { create(:user) }
   let(:member) { create(:user) }
-  let(:team) { create(:team, members: [owner, member]) }
+  let(:admin) { create(:user) }
+  let(:team) { create(:team, members: [owner, member, admin]) }
   
-  before { owner.add_role(:owner, team) } 
+  before do 
+    owner.add_role(:owner, team)  
+    admin.add_role(:admin, team)
+  end
 
   describe "#create" do
     before do
@@ -72,6 +76,26 @@ RSpec.describe TeamsController, type: :controller do
       it "should remove current_user as owner" do
         subject
         expect(owner.has_role?(:owner, team)).to be_falsey
+      end
+    end
+  end
+
+  describe "POST #make_admin" do
+    subject { post :make_admin, id: team.id, user_id: member.id }
+
+    context "when current_user is not admin" do
+      it "should not make user an admin" do
+        subject
+        expect(member.in? team.admins).to be_falsey
+      end
+    end
+
+    context "when current_user is admin" do
+      before { allow(controller).to receive(:current_user) { admin } }
+
+      it "should make selected member an admin" do
+        subject
+        expect(member.has_role?(:admin, team)).to be_truthy
       end
     end
   end

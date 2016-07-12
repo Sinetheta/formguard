@@ -13,6 +13,7 @@ Rails.application.routes.draw do
   resources :teams do
     member do
       post 'grant_ownership'
+      post 'make_admin'
     end
   end
 

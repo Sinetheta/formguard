@@ -1,0 +1,10 @@
+- if flash[:bad_dates]
+  %div.alert.alert-danger
+    = flash[:bad_dates]
+
+- unless @submissions.nil?
+  %div#filtered-results
+    %ul
+      = will_paginate @submissions, renderer: BootstrapPagination::Rails
+      = render partial: "form_submissions/form_submission", collection: @submissions
+      = will_paginate @submissions, renderer: BootstrapPagination::Rails

@@ -18,9 +18,9 @@ class TeamsController < ApplicationController
   end
 
   def show
-    team = Team.find(params[:id])
-    @members = team.members
-    @form_actions = team.form_actions
+    @memberships = @team.memberships.includes(:member)
+    @form_actions = @team.form_actions
+    @form_action = FormAction.new
   end
 
   private

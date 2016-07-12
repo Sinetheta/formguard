@@ -1,8 +1,8 @@
 %p Team Members:
 %ul
-  - @members.each do |member|
+  - @memberships.each do |membership|
     %li
-      = member.email
+      = render membership 
 
 %p Team Forms:
 %ul

@@ -4,4 +4,9 @@ class Team < ActiveRecord::Base
   has_many :members, through: :memberships
 
   resourcify
+
+  def owner
+    User.with_role(:owner, self).first
+  end
+
 end

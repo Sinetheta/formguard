@@ -1,0 +1,7 @@
+= membership.member.email
+- unless membership.member == @team.owner
+  - if can? :destroy, membership
+    = link_to 'Remove user from team', 
+      delete_team_membership_path(membership, team_id: @team.id),
+      method: :delete,
+      data: { confirm: "Are you sure?" }

@@ -25,6 +25,15 @@ class TeamsController < ApplicationController
     @form_action = FormAction.new
   end
 
+  def destroy
+    if @team.destroy
+      flash[:notice] = "Team destroyed"
+    else
+      flash[:error] = "Something went wrong, the team lives on"
+    end
+    redirect_to authenticated_root_path
+  end
+
   private
 
   def team_params

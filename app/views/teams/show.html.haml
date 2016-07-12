@@ -12,3 +12,8 @@
 
 - if current_user.in? @team.admins
   = render 'form_actions/form'
+
+- if can? :delete, @team
+  = link_to 'Delete team', @team, 
+    method: :delete, 
+    data: { confirm: "Are you sure?" }

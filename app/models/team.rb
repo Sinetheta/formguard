@@ -9,4 +9,7 @@ class Team < ActiveRecord::Base
     User.with_role(:owner, self).first
   end
 
+  def admins
+    User.with_role(:admin, self)
+  end
 end

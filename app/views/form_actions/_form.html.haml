@@ -9,4 +9,7 @@
   = text_field_tag("emails[]", current_user.email , class:'mailing-list')
   = text_field_tag("emails[]",nil , class:'mailing-list')
 
+  - if @team
+    = f.hidden_field :team_id, value: @team.id
+    
   = submit_tag('Create Form')

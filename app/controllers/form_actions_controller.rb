@@ -24,7 +24,7 @@ class FormActionsController < ApplicationController
         .paginate(page: page, per_page: per_page)
     else
       @submissions = nil
-      flash[:bad_dates] = "'Until' date must come after 'From' date"
+      flash.now[:bad_dates] = "'Until' date must come after 'From' date"
     end
   end
 
@@ -54,6 +54,24 @@ class FormActionsController < ApplicationController
   def destroy
     @form_action.destroy
     redirect_to form_actions_path
+  end
+
+  def render_filtered_partial
+    @filtered_submissions = FilteredFormSubmission
+      .new(params.slice(:q).merge(form_action: @form_action))
+
+    if @filtered_submissions.valid?
+      page = params[:page] || 1
+      per_page = params[:per_page] || 25
+      @submissions = @filtered_submissions
+        .submissions
+        .paginate(page: page, per_page: per_page)
+    else
+      @submissions = nil
+      flash.now[:bad_dates] = "'Until' date must come after 'From' date"
+    end
+
+    render partial: 'form_actions/filtered_submissions'
   end
 
   private

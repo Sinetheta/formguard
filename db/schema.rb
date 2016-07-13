@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160621164631) do
+ActiveRecord::Schema.define(version: 20160705174115) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -36,12 +36,13 @@ ActiveRecord::Schema.define(version: 20160621164631) do
 
   create_table "form_actions", id: :uuid, default: "uuid_generate_v4()", force: :cascade do |t|
     t.string   "name"
-    t.datetime "created_at",                    null: false
-    t.datetime "updated_at",                    null: false
+    t.datetime "created_at",                        null: false
+    t.datetime "updated_at",                        null: false
     t.integer  "user_id"
-    t.boolean  "should_notify", default: false
-    t.text     "emails",        default: [],                 array: true
+    t.boolean  "should_notify",     default: false
+    t.text     "emails",            default: [],                 array: true
     t.integer  "team_id"
+    t.boolean  "allow_file_upload", default: false
   end
 
   add_index "form_actions", ["name", "user_id"], name: "index_form_actions_on_name_and_user_id", unique: true, using: :btree
@@ -56,6 +57,16 @@ ActiveRecord::Schema.define(version: 20160621164631) do
 
   add_index "form_submissions", ["form_action_id"], name: "index_form_submissions_on_form_action_id", using: :btree
 
+  create_table "invites", force: :cascade do |t|
+    t.string   "email"
+    t.integer  "team_id"
+    t.integer  "sender_id"
+    t.integer  "recipient_id"
+    t.string   "token"
+    t.datetime "created_at",   null: false
+    t.datetime "updated_at",   null: false
+  end
+
   create_table "memberships", force: :cascade do |t|
     t.integer  "user_id"
     t.integer  "team_id"
@@ -65,6 +76,17 @@ ActiveRecord::Schema.define(version: 20160621164631) do
 
   add_index "memberships", ["team_id"], name: "index_memberships_on_team_id", using: :btree
   add_index "memberships", ["user_id"], name: "index_memberships_on_user_id", using: :btree
+
+  create_table "roles", force: :cascade do |t|
+    t.string   "name"
+    t.integer  "resource_id"
+    t.string   "resource_type"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "roles", ["name", "resource_type", "resource_id"], name: "index_roles_on_name_and_resource_type_and_resource_id", using: :btree
+  add_index "roles", ["name"], name: "index_roles_on_name", using: :btree
 
   create_table "teams", force: :cascade do |t|
     t.string   "name"
@@ -89,6 +111,13 @@ ActiveRecord::Schema.define(version: 20160621164631) do
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
   add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
+
+  create_table "users_roles", id: false, force: :cascade do |t|
+    t.integer "user_id"
+    t.integer "role_id"
+  end
+
+  add_index "users_roles", ["user_id", "role_id"], name: "index_users_roles_on_user_id_and_role_id", using: :btree
 
   create_table "web_hooks", force: :cascade do |t|
     t.uuid    "webhookable_id"

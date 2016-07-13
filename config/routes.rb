@@ -8,7 +8,15 @@ Rails.application.routes.draw do
     resources :web_hooks
   end
 
-  resources :teams
+  resources :memberships, only: :destroy, as: 'delete_team_membership'
+
+  resources :teams do
+    member do
+      post 'grant_ownership'
+      post 'make_admin'
+      post 'remove_admin'
+    end
+  end
 
   authenticated :user do
     root 'form_actions#index', as: :authenticated_root

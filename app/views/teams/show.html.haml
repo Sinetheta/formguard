@@ -1,11 +1,19 @@
 %p Team Members:
 %ul
-  - @members.each do |member|
+  - @memberships.each do |membership|
     %li
-      = member.email
+      = render membership 
 
 %p Team Forms:
 %ul
   - @form_actions.each do |form_action|
     %li
       = link_to form_action.name, form_action
+
+- if current_user.in? @team.admins
+  = render 'form_actions/form'
+
+- if can? :delete, @team
+  = link_to 'Delete team', @team, 
+    method: :delete, 
+    data: { confirm: "Are you sure?" }

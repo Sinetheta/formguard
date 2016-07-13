@@ -1,7 +1,7 @@
 Rails.application.routes.draw do
   get 'static_pages/home'
 
-  devise_for :users
+  devise_for :users, controllers: { registrations: 'users/registrations' }
 
   resources :form_actions, path: 'forms' do
     resources :form_submissions, path: 's', only: [:create, :new]

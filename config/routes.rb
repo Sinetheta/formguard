@@ -18,6 +18,8 @@ Rails.application.routes.draw do
     end
   end
 
+  resources :invites
+
   authenticated :user do
     root 'form_actions#index', as: :authenticated_root
   end

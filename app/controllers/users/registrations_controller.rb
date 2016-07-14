@@ -2,6 +2,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
 
   def new
     super do
+      @email = params[:email]
       @token = params[:invite_token]
     end
   end

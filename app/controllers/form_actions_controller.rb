@@ -11,15 +11,7 @@ class FormActionsController < ApplicationController
   def show
     @form_action = FormActionPresenter.new FormAction.find(params[:id])
 
-    # bucket the dates by day
-    dates = @form_action.form_submissions
-      .order(:created_at)
-      .pluck(:created_at)
-      .map { |sub| sub.to_date.to_s }
-    @graph_data = dates
-      .uniq
-      .map { |d| {date: d, count: dates.count(d)} }
-      .to_json
+    @graph_data = generate_graph_data
 
     @filtered_submissions = FilteredFormSubmission
       .new(filtered_params @form_action)
@@ -88,6 +80,20 @@ class FormActionsController < ApplicationController
       end
 
     {start_date: start_date, end_date: end_date, form_action: form_action}
+  end
+
+  def generate_graph_data
+    dates = @form_action.form_submissions
+      .order(:created_at)
+      .pluck(:created_at)
+      .map { |sub| sub.to_date.to_s }
+
+    graph_data = dates
+      .uniq
+      .map { |d| {date: d, count: dates.count(d)} }
+      .to_json
+
+    graph_data
   end
 
   def authenticate_user!

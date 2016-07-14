@@ -33,21 +33,17 @@
 
   = form_tag(form_action_path(@form_action),
              method: :get,
-             class: "form-inline",
+             class: "form-horizontal",
              id:"filter-form") do
     %div.form-group
-      %label.sr-only{for:"start_date"} Submissions from
-      = text_field_tag("start_date",
-                       '',
-                       placeholder: "From: YYYY-MM-DD",
-                       class:"form-control")
-    %div.form-group
-      %label.sr-only{for:"end_date"} Submissions until
-      = text_field_tag("end_date",
-                       '',
-                       placeholder: "Until: YYYY-MM-DD",
-                       class:"form-control")
-    %button.btn.btn-primary{type:"submit"} Filter!
+      %label.sr-only{for: "q"} Enter query string
+      %div.col-sm-10
+        = text_field_tag("q",
+                         '',
+                         placeholder: "from:YYYY-MM-DD to:YYYY-MM-DD",
+                         class:"form-control")
+      %div.col-sm-2
+        %button.btn.btn-primary{type:"submit"} Filter!
 
   %h3= @filtered_submissions.filters_applied
   - if flash[:bad_dates]

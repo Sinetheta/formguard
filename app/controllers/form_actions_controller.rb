@@ -66,21 +66,19 @@ class FormActionsController < ApplicationController
   end
 
   def filtered_params form_action
+    q_to = /to:(\d{4}-\d{1,2}-\d{1,2})/
+    q_from = /from:(\d{4}-\d{1,2}-\d{1,2})/
+
     start_date =
-      if params[:start_date] && !params[:start_date].empty?
-        params[:start_date]
-      else
-        nil
-      end
+      (m = q_from.match(params[:q])) ? m[1] : nil
 
     end_date =
-      if params[:end_date] && !params[:end_date].empty?
-        params[:end_date]
-      else
-        nil
-      end
+      (m = q_to.match(params[:q])) ? m[1] : nil
 
-    {start_date: start_date, end_date: end_date, form_action: form_action}
+    status =
+      (m = q_status.match(params[:q])) ? m[1] : nil
+
+    {start_date: start_date, end_date: end_date, status: status, form_action: form_action}
   end
 
   def generate_graph_data

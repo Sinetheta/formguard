@@ -1,3 +1,4 @@
+require "filtered_form_submission"
 class FormActionsController < ApplicationController
   load_and_authorize_resource
   before_action :authenticate_user!
@@ -10,12 +11,20 @@ class FormActionsController < ApplicationController
   def show
     @form_action = FormActionPresenter.new FormAction.find(params[:id])
 
-    # bucket the dates by day
-    dates = @form_action.form_submissions.order(:created_at).pluck(:created_at).map { |sub| sub.to_date.to_s }
-    @graph_data = dates.uniq.map { |d| {date: d, count: dates.count(d) } }.to_json
-    @submissions = FormSubmission
-      .where(form_action_id: @form_action.id)
-      .paginate(page: params[:page], per_page: params[:per_page] ||= 25)
+    @graph_data = generate_graph_data
+
+    @filtered_submissions = FilteredFormSubmission
+      .new(filtered_params @form_action)
+    if @filtered_submissions.valid?
+      page = params[:page] || 1
+      per_page = params[:per_page] || 25
+      @submissions = @filtered_submissions
+        .submissions
+        .paginate(page: page, per_page: per_page)
+    else
+      @submissions = nil
+      flash[:bad_dates] = "'Until' date must come after 'From' date"
+    end
   end
 
   def create
@@ -53,6 +62,38 @@ class FormActionsController < ApplicationController
     p[:emails] = params[:emails].select{ |address| Devise.email_regexp.match(address) }
       .map{ |address| address.downcase }.uniq
     p
+  end
+
+  def filtered_params form_action
+    start_date =
+      if params[:start_date] && !params[:start_date].empty?
+        params[:start_date]
+      else
+        nil
+      end
+
+    end_date =
+      if params[:end_date] && !params[:end_date].empty?
+        params[:end_date]
+      else
+        nil
+      end
+
+    {start_date: start_date, end_date: end_date, form_action: form_action}
+  end
+
+  def generate_graph_data
+    dates = @form_action.form_submissions
+      .order(:created_at)
+      .pluck(:created_at)
+      .map { |sub| sub.to_date.to_s }
+
+    graph_data = dates
+      .uniq
+      .map { |d| {date: d, count: dates.count(d)} }
+      .to_json
+
+    graph_data
   end
 
   def authenticate_user!

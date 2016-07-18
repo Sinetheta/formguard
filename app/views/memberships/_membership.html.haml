@@ -1,26 +1,26 @@
 = membership.member.email
-- unless membership.member == @team.owner
+- unless membership.member == @team.owner || membership.member == current_user
   - if can? :destroy, membership
     = link_to 'Remove user from team', 
-      delete_team_membership_path(membership, team_id: @team.id),
+      delete_team_membership_path(membership, team: @team),
       method: :delete,
       data: { confirm: "Are you sure?" }
 
   - if can?(:remove_admin, @team) && membership.admin?
     = link_to 'Revoke admin', 
-      remove_admin_team_path(@team, user_id: membership.member.id),
+      remove_admin_team_path(@team, user: membership.member),
       method: :post,
       data: { confirm: "Are you sure?" }
 
   - elsif can? :make_admin, @team
     = link_to 'Make user admin', 
-      make_admin_team_path(@team, user_id: membership.member.id),
+      make_admin_team_path(@team, user: membership.member),
       method: :post,
       data: { confirm: "Are you sure?" }
 
   - if can? :grant_ownership, @team 
     = link_to 'Transfer ownership to this user', 
-      grant_ownership_team_path(@team, user_id: membership.member.id),
+      grant_ownership_team_path(@team, user: membership.member),
       method: :post,
       data: { confirm: "Are you sure?" }
 

@@ -4,7 +4,7 @@
   .field
     = f.label :email
     %br/
-    = f.email_field :email, autofocus: true
+    = f.email_field :email, autofocus: true, value: @email
   .field
     = f.label :password
     - if @minimum_password_length

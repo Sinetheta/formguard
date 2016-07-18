@@ -5,9 +5,14 @@ class Ability
     user ||= User.new
     can :manage, FormAction, user_id: user.id
     can :create, [FormSubmission, WebHook, Team]
-    can :read, [FormSubmission, WebHook], user_id: user.id
-    can :read, [FormAction, FormSubmission, WebHook], team: { id: user.team_ids }
-
+    can :read, [WebHook], user_id: user.id
+    can :read, [FormAction, WebHook], team: { id: user.team_ids }
+    can [:update, :read], FormSubmission do |sub|
+      user.form_actions.include? sub.form_action
+    end
+    can [:update, :read], FormSubmission do |sub|
+      user.team_ids.include? sub.form_action.team_id
+    end
     can :read, Team do |t|
       user.team_ids.include? t.id
     end

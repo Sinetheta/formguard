@@ -14,6 +14,11 @@ class FormSubmissionsController < ApplicationController
     end
   end
 
+  def update
+    @form_submission.update_attribute(:read, true)
+    render :show
+  end
+
   private
 
   def payload

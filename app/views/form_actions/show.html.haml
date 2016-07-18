@@ -5,7 +5,10 @@
 |
 = link_to 'Edit', edit_form_action_path(@form_action)
 |
-= link_to("Delete", @form_action, method: :delete, data: {confirm: "Are you sure?"})
+= link_to("Delete",
+          @form_action,
+          method: :delete,
+          data: {confirm: "Are you sure?"})
 
 %h2 Mailing list:
 %ul
@@ -27,12 +30,39 @@
   %h2 Submissions over time:
   %svg#form-action-show-graph{"data-dates": @graph_data}
   %h2 Submissions data:
-  %ul
-    = will_paginate @submissions, renderer: BootstrapPagination::Rails
-    = render partial: "/form_submissions/form_submission", collection: @submissions
-    = will_paginate @submissions, renderer: BootstrapPagination::Rails
 
-= link_to "Test a submission", new_form_action_form_submission_path(@form_action)
+  = form_tag(form_action_path(@form_action),
+             method: :get,
+             class: "form-inline",
+             id:"filter-form") do
+    %div.form-group
+      %label.sr-only{for:"start_date"} Submissions from
+      = text_field_tag("start_date",
+                       '',
+                       placeholder: "From: YYYY-MM-DD",
+                       class:"form-control")
+    %div.form-group
+      %label.sr-only{for:"end_date"} Submissions until
+      = text_field_tag("end_date",
+                       '',
+                       placeholder: "Until: YYYY-MM-DD",
+                       class:"form-control")
+    %button.btn.btn-primary{type:"submit"} Filter!
+
+  %h3= @filtered_submissions.filters_applied
+  - if flash[:bad_dates]
+    %div.alert.alert-danger
+      = flash[:bad_dates]
+
+  - unless @submissions.nil?
+    %ul
+      = will_paginate @submissions, renderer: BootstrapPagination::Rails
+      = render partial: "/form_submissions/form_submission",
+        collection: @submissions
+      = will_paginate @submissions, renderer: BootstrapPagination::Rails
+
+= link_to "Test a submission",
+  new_form_action_form_submission_path(@form_action)
 
 - if @form_action.web_hooks.length > 0
   %h2 Web Hooks:

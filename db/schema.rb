@@ -57,6 +57,16 @@ ActiveRecord::Schema.define(version: 20160711222607) do
 
   add_index "form_submissions", ["form_action_id"], name: "index_form_submissions_on_form_action_id", using: :btree
 
+  create_table "invites", force: :cascade do |t|
+    t.string   "email"
+    t.integer  "team_id"
+    t.integer  "sender_id"
+    t.integer  "recipient_id"
+    t.string   "token"
+    t.datetime "created_at",   null: false
+    t.datetime "updated_at",   null: false
+  end
+
   create_table "memberships", force: :cascade do |t|
     t.integer  "user_id"
     t.integer  "team_id"

@@ -18,5 +18,5 @@
     method: :delete, 
     data: { confirm: "Are you sure?" }
 
-%p Invite Somebody
-= render 'invites/invite', invite: Invite.new, team_id: @team.id
+- if can? :create, Invite.new(team: @team)
+  = render 'invites/invite', invite: Invite.new, team_id: @team.id

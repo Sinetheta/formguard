@@ -8,7 +8,7 @@ class FormActionsController < ApplicationController
   end
 
   def show
-    @form_action = FormActionPresenter.new FormAction.find(params[:id])
+    @form_action = FormActionPresenter.new @form_action
 
     # bucket the dates by day
     dates = @form_action.form_submissions.order(:created_at).pluck(:created_at).map { |sub| sub.to_date.to_s }

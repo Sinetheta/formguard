@@ -17,6 +17,6 @@
           - if !current_page?(controller: 'devise/sessions', action: 'new')
             %li
               = link_to("Login", new_user_session_path)
-          - if !current_page?(controller: 'devise/registrations', action: 'new')
+          - if !current_page?(controller: 'users/registrations', action: 'new')
             %li
               = link_to("Register", new_user_registration_path)

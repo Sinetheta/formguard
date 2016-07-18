@@ -20,9 +20,9 @@ class TeamsController < ApplicationController
   end
 
   def show
-    @memberships = @team.memberships.includes(:member)
     @form_actions = @team.form_actions
     @form_action = FormAction.new
+    @memberships = @team.memberships.includes(:member)
   end
 
   def destroy

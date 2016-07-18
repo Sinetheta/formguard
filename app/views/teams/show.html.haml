@@ -17,3 +17,6 @@
   = link_to 'Delete team', @team, 
     method: :delete, 
     data: { confirm: "Are you sure?" }
+
+%p Invite Somebody
+= render 'invites/invite', invite: Invite.new, team_id: @team.id

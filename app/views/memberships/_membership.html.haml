@@ -1,7 +1,7 @@
 = membership.member.email
-- unless membership.member == @team.owner || membership.member == current_user
+- if membership.member != @team.owner 
   - if can? :destroy, membership
-    = link_to 'Remove user from team', 
+    = link_to membership.member == current_user ? 'Leave this team ' : 'Remove user from team',
       delete_team_membership_path(membership, team: @team),
       method: :delete,
       data: { confirm: "Are you sure?" }
@@ -23,4 +23,3 @@
       grant_ownership_team_path(@team, user: membership.member),
       method: :post,
       data: { confirm: "Are you sure?" }
-

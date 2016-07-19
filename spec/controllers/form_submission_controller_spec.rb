@@ -37,6 +37,15 @@ RSpec.describe FormSubmissionsController, type: :controller do
         end
       end
 
+      context "when an autoresponse is provided" do
+        let(:action) { create(:form_action, auto_response: 'response', user: user) }
+        subject { post :create, form_action_id: action.id, email: "email@example.com", content: "content" }
+
+        it "sends a response to the submitter" do
+          expect{ subject }.to change { ActionMailer::Base.deliveries.count }.by(1)
+        end
+      end
+
       context "when save fails" do
         before(:each) { allow_any_instance_of(FormSubmission).to receive(:save).and_return(false) }
         it "should return code 500" do

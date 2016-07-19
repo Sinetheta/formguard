@@ -4,7 +4,7 @@ RSpec.describe FilteredFormSubmission, type: :model do
   it { is_expected.to validate_presence_of(:form_action) }
 
   context "when built with a bad date input" do
-    let(:filtered) { FilteredFormSubmission.new(start_date:"bad") }
+    let(:filtered) { FilteredFormSubmission.new(q: "bad from:2000-99-99") }
 
     before(:each) { filtered.valid? }
 
@@ -18,7 +18,10 @@ RSpec.describe FilteredFormSubmission, type: :model do
   end
 
   context "when built with a negative date window" do
-    let(:filtered) { FilteredFormSubmission.new(start_date:"2001-1-1", end_date: "2000-1-1") }
+    let(:action) { create(:form_action) }
+    let(:filtered) {
+      FilteredFormSubmission.new(form_action: action,
+                                 q: "from:2001-1-1 to:2000-1-1")}
 
     before(:each) { filtered.valid? }
 

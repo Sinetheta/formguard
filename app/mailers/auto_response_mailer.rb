@@ -1,0 +1,2 @@
+class AutoResponseMailer < ApplicationMailer
+end

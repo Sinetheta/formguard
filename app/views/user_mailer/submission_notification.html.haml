@@ -1,5 +1,7 @@
-%p= @greeting
-%p= "Your form titled \"#{@action.name}\" was submitted with the following data:"
+%p= "Hi there,\n#{@message.user.email} asked that you be notified!"
+%p= "Your form titled \"#{ @message.action.name }\" was submitted with the following data:"
 
 
-%p= JSON.pretty_generate(@submission.payload)
+%p= JSON.pretty_generate(@message.payload)
+
+= mail_to @message.email, "Reply directly to this submission", { subject: 'FormGuard Submission', body: "#{@message.content}" }

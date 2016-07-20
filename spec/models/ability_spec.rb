@@ -6,10 +6,16 @@ RSpec.describe Ability do
   let(:team) { create(:team, members: [user]) }
   let(:membership) { create(:membership, team: team, member: user) } 
   let(:ability) { Ability.new(user) }
+  let(:invite) { Invite.new(team: team, sender: user, recipient: recipient) }
+  let(:recipient) { create(:user) }
 
   context "when team member" do
     it "has read access" do
       expect(ability).to be_able_to(:read, team)
+    end
+
+    it "cannot invite other users to join team" do
+      expect(ability).to_not be_able_to(:create, invite)
     end
   end
 
@@ -21,8 +27,6 @@ RSpec.describe Ability do
     end
 
     context "when inviting users" do
-      let(:recipient) { create(:user) }
-      let(:invite) { Invite.new(team: team, sender: user, recipient: recipient) }
       it "can invite other users to join" do
         expect(ability).to be_able_to(:create, invite)
       end

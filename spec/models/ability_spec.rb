@@ -4,22 +4,28 @@ require 'cancan/matchers'
 RSpec.describe Ability do
   let(:user) { create(:user) }
   let(:team) { create(:team, members: [user]) }
-  let(:admin) { create(:user) }
+  let(:membership) { create(:membership, team: team, member: user) } 
+  let(:ability) { Ability.new(user) }
 
   context "when team member" do
     it "has read access" do
-      ability = Ability.new(user)
       expect(ability).to be_able_to(:read, team)
     end
   end
 
   context "when team admin" do
-    let(:membership) { create(:membership, team_id: team.id) }
     before { user.add_role(:admin, team) }
 
     it "can delete other team members" do
-      ability = Ability.new(user)
       expect(ability).to be_able_to(:destroy, membership)
+    end
+
+    context "when inviting users" do
+      let(:recipient) { create(:user) }
+      let(:invite) { Invite.new(team: team, sender: user, recipient: recipient) }
+      it "can invite other users to join" do
+        expect(ability).to be_able_to(:create, invite)
+      end
     end
   end
   
@@ -27,7 +33,6 @@ RSpec.describe Ability do
     before { user.add_role(:owner, team) }
 
     it "can manage team" do
-      ability = Ability.new(user)
       expect(ability).to be_able_to(:manage, team)
     end
   end

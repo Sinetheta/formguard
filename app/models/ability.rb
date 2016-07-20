@@ -17,8 +17,11 @@ class Ability
       user.team_ids.include? t.id
     end
 
+    can :create, Invite do |invite|
+      Team.with_role("admin", user).include? invite.team
+    end
+
     unless user.new_record?
-      can :create, Invite, team_id: Team.with_role("admin", user).pluck(:id)
       can :manage, Team, id: Team.with_role("owner", user).pluck(:id)
       can :destroy, Membership, team_id: Team.with_role("admin", user).pluck(:id)
       can [:make_admin, :remove_admin], Team, id: Team.with_role("admin", user).pluck(:id)

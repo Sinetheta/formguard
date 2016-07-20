@@ -67,9 +67,6 @@ GEM
       rack (>= 1.0.0)
       rack-test (>= 0.5.4)
       xpath (~> 2.0)
-    capybara-webkit (1.11.1)
-      capybara (>= 2.3.0, < 2.8.0)
-      json
     cliver (0.3.2)
     coderay (1.1.1)
     concurrent-ruby (1.0.2)
@@ -309,7 +306,6 @@ DEPENDENCIES
   bullet
   bundler-audit (>= 0.5.0)
   cancancan (~> 1.10)
-  capybara-webkit
   d3-rails
   database_cleaner
   delayed_job_active_record

@@ -8,7 +8,7 @@ class Ability
     can :create, [FormSubmission, WebHook, Team]
     can :read, [WebHook], user_id: user.id
     can :read, [FormAction, WebHook], team: { id: user.team_ids }
-    can [:update, :read], FormSubmission do |sub|
+    can [:download_attachment, :update, :read], FormSubmission do |sub|
       user.form_actions.include? sub.form_action
     end
     can [:update, :read], FormSubmission do |sub|

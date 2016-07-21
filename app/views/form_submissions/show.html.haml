@@ -1,1 +1,10 @@
-= "#{@form_submission.payload}"
+%h3 Payload
+%div.payload
+  = "#{@form_submission.payload}"
+
+- if @form_submission.attachment?
+  %h3 Attachment
+  %div.attachment
+    = @form_submission.attachment_name
+    |
+    = link_to('Download', url_for(@form_submission) + "/download")

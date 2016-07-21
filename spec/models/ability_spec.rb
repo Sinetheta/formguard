@@ -3,11 +3,11 @@ require 'cancan/matchers'
 
 RSpec.describe Ability do
   let(:user) { create(:user) }
+  let(:recipient) { create(:user) }
   let(:team) { create(:team, members: [user]) }
   let(:membership) { create(:membership, team: team, member: user) } 
-  let(:ability) { Ability.new(user) }
   let(:invite) { Invite.new(team: team, sender: user, recipient: recipient) }
-  let(:recipient) { create(:user) }
+  let(:ability) { Ability.new(user) }
 
   context "when team member" do
     it "has read access" do
@@ -16,6 +16,10 @@ RSpec.describe Ability do
 
     it "cannot invite other users to join team" do
       expect(ability).to_not be_able_to(:create, invite)
+    end
+
+    it "can manage their own memberships" do
+      expect(ability).to be_able_to(:destroy, membership)
     end
   end
 

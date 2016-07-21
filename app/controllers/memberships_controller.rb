@@ -2,12 +2,12 @@ class MembershipsController < ApplicationController
   load_and_authorize_resource
 
   def destroy
-    if @membership.user_id == current_user.id
-      flash[:error] = "Can't kill yourself!"
+    if @membership.team.owner == current_user
+      flash[:error] = "Transfer ownership before removing yourself."
     else
       @membership.destroy
       flash[:notice] = "Member removed from team"
     end
-    redirect_to team_path(Team.find(params[:team_id]))
+    redirect_to team_path(@membership.team)
   end
 end

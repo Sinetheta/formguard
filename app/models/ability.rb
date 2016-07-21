@@ -4,6 +4,7 @@ class Ability
   def initialize(user)
     user ||= User.new
     can :manage, FormAction, user_id: user.id
+    can :destroy, Membership, user_id: user.id
     can :create, [FormSubmission, WebHook, Team]
     can :read, [WebHook], user_id: user.id
     can :read, [FormAction, WebHook], team: { id: user.team_ids }

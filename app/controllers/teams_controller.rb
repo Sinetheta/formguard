@@ -35,7 +35,7 @@ class TeamsController < ApplicationController
   end
 
   def grant_ownership
-    new_owner = User.find(params[:user_id])
+    new_owner = User.find(params[:user])
     current_user.revoke :owner, @team
     new_owner.grant :owner, @team
     new_owner.grant :admin, @team
@@ -43,13 +43,13 @@ class TeamsController < ApplicationController
   end
 
   def make_admin
-    admin_user = User.find(params[:user_id])
+    admin_user = User.find(params[:user])
     admin_user.grant :admin, @team
     redirect_to team_path(@team)
   end
 
   def remove_admin
-    admin_user = User.find(params[:user_id])
+    admin_user = User.find(params[:user])
     admin_user.revoke :admin, @team
     redirect_to team_path(@team)
   end

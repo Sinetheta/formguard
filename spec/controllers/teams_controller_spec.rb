@@ -56,7 +56,7 @@ RSpec.describe TeamsController, type: :controller do
   end
 
   describe "POST #grant_ownership" do
-    subject { post :grant_ownership, id: team.id, user_id: member.id }
+    subject { post :grant_ownership, id: team.id, user: member }
 
     context "when current_user is not owner" do
       it "should not transfer ownership" do
@@ -81,7 +81,7 @@ RSpec.describe TeamsController, type: :controller do
   end
 
   describe "POST #make_admin" do
-    subject { post :make_admin, id: team.id, user_id: member.id }
+    subject { post :make_admin, id: team.id, user: member }
 
     context "when current_user is not admin" do
       it "should not make user an admin" do
@@ -101,7 +101,7 @@ RSpec.describe TeamsController, type: :controller do
   end
 
   describe "POST #remove_admin" do
-    subject { post :remove_admin, id: team.id, user_id: member.id }
+    subject { post :remove_admin, id: team.id, user: member }
     before { member.add_role(:admin, team) }
 
     context "when current_user is not admin" do

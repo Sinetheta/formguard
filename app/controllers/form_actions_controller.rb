@@ -15,7 +15,7 @@ class FormActionsController < ApplicationController
     @graph_data = generate_graph_data
 
     @filtered_submissions = FilteredFormSubmission
-      .new(filtered_params @form_action)
+      .new(params.slice(:q).merge(form_action: @form_action))
     if @filtered_submissions.valid?
       page = params[:page] || 1
       per_page = params[:per_page] || 25
@@ -63,24 +63,6 @@ class FormActionsController < ApplicationController
     p[:emails] = params[:emails].select{ |address| Devise.email_regexp.match(address) }
       .map{ |address| address.downcase }.uniq
     p
-  end
-
-  def filtered_params form_action
-    start_date =
-      if params[:start_date] && !params[:start_date].empty?
-        params[:start_date]
-      else
-        nil
-      end
-
-    end_date =
-      if params[:end_date] && !params[:end_date].empty?
-        params[:end_date]
-      else
-        nil
-      end
-
-    {start_date: start_date, end_date: end_date, form_action: form_action}
   end
 
   def generate_graph_data

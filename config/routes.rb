@@ -27,4 +27,5 @@ Rails.application.routes.draw do
 
   root 'high_voltage/pages#show', id: 'home'
 
+  get 'submissions/:id/download' => "form_submissions#download_attachment"
 end

@@ -26,6 +26,12 @@ class FormSubmissionsController < ApplicationController
     render :show
   end
 
+  def download_attachment
+    send_data(@form_submission.attachment,
+              type: @form_submission.attachment_type,
+              name: @form_submission.attachment_name)
+  end
+
   private
 
   def payload

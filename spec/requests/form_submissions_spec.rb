@@ -38,3 +38,26 @@ RSpec.describe "FormSubmission reading", type: :request do
   end
 
 end
+
+RSpec.describe "FormSubmission creation", type: :request do
+  let(:user) { create(:user) }
+  let(:action) { create(:form_action, user: user ) }
+
+  describe "POST form_submission#create" do
+    subject {
+      post "/forms/#{action.id}/s",
+      attachment: fixture_file_upload('spec/fixtures/form_submission/attachments/test.txt', 'text/plain')
+    }
+
+    it { is_expected.to eq(200) }
+
+    it "creates a new submission" do
+      expect { subject }.to change(FormSubmission, :count).by(1)
+    end
+
+    it "adds an attachment to the submission" do
+      subject
+      expect( action.reload.form_submissions.last.attachment_name ).to eq("test.txt")
+    end
+  end
+end

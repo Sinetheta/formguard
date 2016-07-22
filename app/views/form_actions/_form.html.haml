@@ -9,7 +9,10 @@
   = text_field_tag("emails[]", current_user.email , class:'mailing-list')
   = text_field_tag("emails[]",nil , class:'mailing-list')
 
+  = f.label :auto_response, "If you would like form submitters to receive an automatic response, provide a message here: "
+  = f.text_field :auto_response, placeholder: "e.g. Thanks! We have received your submission and will act accordingly"
+
   - if @team
     = f.hidden_field :team_id, value: @team.id
-    
+
   = submit_tag('Create Form')

@@ -59,7 +59,7 @@ class FormActionsController < ApplicationController
   private
 
   def form_action_params
-    p = params.require(:form_action).permit(:name, :should_notify, {:emails => []}, :team_id)
+    p = params.require(:form_action).permit(:name, :should_notify, {:emails => []}, :team_id, :auto_response)
     p[:emails] = params[:emails].select{ |address| Devise.email_regexp.match(address) }
       .map{ |address| address.downcase }.uniq
     p

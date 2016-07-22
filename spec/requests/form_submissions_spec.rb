@@ -38,3 +38,54 @@ RSpec.describe "FormSubmission reading", type: :request do
   end
 
 end
+
+RSpec.describe "FormSubmission creation", type: :request do
+  let(:user) { create(:user) }
+  let(:action) { create(:form_action, user: user ) }
+
+  describe "POST form_submission#create" do
+    subject {
+      post "/forms/#{action.id}/s",
+      attachment: fixture_file_upload('spec/fixtures/form_submission/attachments/test.txt', 'text/plain')
+    }
+
+    it { is_expected.to eq(200) }
+
+    it "creates a new submission" do
+      expect { subject }.to change(FormSubmission, :count).by(1)
+    end
+
+    it "adds an attachment to the submission" do
+      subject
+      expect( action.reload.form_submissions.last.attachment_name ).to eq("test.txt")
+    end
+  end
+end
+
+RSpec.describe "FormSubmission attachment download", type: :request do
+  let(:user) { create(:user) }
+  let(:action) { create(:form_action, user: user) }
+  let!(:submission) { create(:form_submission, :with_attachment, form_action: action) }
+
+  context "When user signed in" do
+    before { login_as(user) }
+    describe "GET form_submissions#download_attachment" do
+
+      subject {
+        get "/submissions/#{submission.id}/download"
+      }
+
+      it { is_expected.to eq(200) }
+
+      it "returns text/plain content" do
+        subject
+        expect(response.content_type).to eq("text/plain")
+      end
+
+      it "downloads a file in binary" do
+        subject
+        expect(response.header["Content-Transfer-Encoding"]).to eq("binary")
+      end
+    end
+  end
+end

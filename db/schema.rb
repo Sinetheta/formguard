@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160719201116) do
+ActiveRecord::Schema.define(version: 20160721212433) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -54,6 +54,9 @@ ActiveRecord::Schema.define(version: 20160719201116) do
     t.datetime "created_at",                     null: false
     t.datetime "updated_at",                     null: false
     t.boolean  "read",           default: false
+    t.binary   "attachment"
+    t.string   "attachment_type"
+    t.string   "attachment_name"
   end
 
   add_index "form_submissions", ["form_action_id"], name: "index_form_submissions_on_form_action_id", using: :btree

@@ -1,4 +1,3 @@
 Greetings from Formguard!
 ==========================================
-
-<%= User.find(@invite.sender_id).email %> has added you to the Formguard team <%= Team.find(@invite.team_id).name %>
+<%= @invite.sender.email %> has added you to the Formguard team <%= @invite.team.name %>

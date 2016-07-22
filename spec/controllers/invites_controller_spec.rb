@@ -4,9 +4,10 @@ RSpec.describe InvitesController, type: :controller do
   let(:user) { create(:user) }
   let(:recipient) { create(:user) }
   let(:team) { create(:team) }  
+  let(:invite_params) { { team_id: team } }
 
-  describe "POST create" do
-    subject(:create_invite) { post :create, invite: invite_params }
+  describe "POST #create" do
+    subject(:create_invite) { post :create, invite: invite_params, emails: email_params }
 
     context "when user is an admin" do
 
@@ -17,15 +18,15 @@ RSpec.describe InvitesController, type: :controller do
 
       context "to a new user" do
         context "with a valid email" do
-          let(:invite_params) { { team_id: team.id, email: "new_user@example.com" } }
-
+          let(:email_params) { ["new_user@example.com"] }
+          
           it "creates an invite" do
             expect{ create_invite }.to change(Invite, :count).by(1)
           end
         end
 
         context "without a valid email" do
-          let(:invite_params) { { team_id: team.id, email: "invalid" } }
+          let(:email_params) { ["invalid"] }
 
           it "does not create an invite" do
             expect{ create_invite }.to change(Invite, :count).by(0)
@@ -34,7 +35,7 @@ RSpec.describe InvitesController, type: :controller do
       end
 
       context "to an existing user" do
-        let(:invite_params) { { team_id: team.id, email: recipient.email } }
+        let(:email_params) { [recipient.email] }
 
         it "creates an invite" do
           expect{ create_invite }.to change(Invite, :count).by(1)
@@ -47,7 +48,7 @@ RSpec.describe InvitesController, type: :controller do
     end 
 
     context "when user is not admin" do
-      let(:invite_params) { { team_id: team.id, email: "new_user@example.com" } }
+      let(:email_params) { ["new_user@example.com"] }
       before{ allow(controller).to receive(:current_user) { user } }
 
       it "does not create an invite" do

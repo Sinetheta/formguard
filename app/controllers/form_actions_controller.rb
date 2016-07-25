@@ -48,7 +48,6 @@ class FormActionsController < ApplicationController
       flash[:danger] = "Oops! Something went wrong"
       render "edit"
     end
-
   end
 
   def destroy
@@ -72,6 +71,10 @@ class FormActionsController < ApplicationController
     end
 
     render partial: 'form_actions/filtered_submissions'
+  end
+
+  def embed
+    @form_action = FormActionPresenter.new @form_action
   end
 
   private

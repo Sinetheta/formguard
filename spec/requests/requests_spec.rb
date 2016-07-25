@@ -179,4 +179,23 @@ RSpec.describe "Form creation", type: :request do
     end
   end
 
+  describe "GET form_action#embed" do
+    subject { get "/forms/#{action.id}/embed" }
+
+    context "when form belongs to user" do
+      before { login_as(user) }
+
+      it "returns a 200 status code" do
+        subject
+        expect(response).to have_http_status(200)
+      end
+    end
+
+    context "when form does not belong to user" do
+      before { login_as(other_user) }
+
+      it { is_expected.to redirect_to(authenticated_root_path) }
+    end
+  end
+
 end

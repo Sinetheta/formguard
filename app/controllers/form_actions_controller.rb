@@ -75,6 +75,7 @@ class FormActionsController < ApplicationController
 
   def embed
     @form_action = FormActionPresenter.new @form_action
+    @embeddable_form = @form_action.embeddable_form(@form_action.example_tag)
   end
 
   private

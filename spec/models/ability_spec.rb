@@ -4,7 +4,8 @@ require 'cancan/matchers'
 RSpec.describe Ability do
   let(:user) { create(:user) }
   let(:recipient) { create(:user) }
-  let(:team) { create(:team, members: [user]) }
+  let!(:team) { create(:team, members: [user]) }
+  let(:form) { create(:form_action, team: team) }
   let(:membership) { create(:membership, team: team, member: user) } 
   let(:invite) { Invite.new(team: team, sender: user, recipient: recipient) }
   let(:ability) { Ability.new(user) }
@@ -20,6 +21,14 @@ RSpec.describe Ability do
 
     it "can manage their own memberships" do
       expect(ability).to be_able_to(:destroy, membership)
+    end
+
+    it "can read a team's forms" do
+      expect(ability).to be_able_to(:read, form)
+    end
+
+    it "can access the form embed page" do
+      expect(ability).to be_able_to(:embed, form)
     end
   end
 

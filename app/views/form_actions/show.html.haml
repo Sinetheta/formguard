@@ -46,16 +46,8 @@
         %button.btn.btn-primary{type:"submit"} Filter!
 
   %h3= @filtered_submissions.filters_applied
-  - if flash[:bad_dates]
-    %div.alert.alert-danger
-      = flash[:bad_dates]
 
-  - unless @submissions.nil?
-    %ul
-      = will_paginate @submissions, renderer: BootstrapPagination::Rails
-      = render partial: "/form_submissions/form_submission",
-        collection: @submissions
-      = will_paginate @submissions, renderer: BootstrapPagination::Rails
+  = render "form_actions/filtered_submissions"
 
 = link_to "Test a submission",
   new_form_action_form_submission_path(@form_action)

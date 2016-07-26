@@ -17,7 +17,7 @@ RSpec.feature "Form submission filtering", type: :feature do
   end
 
   context "User views both read and unread submissions" do
-    scenario "User filters dates with a negative date window" do
+    scenario "User filters dates with a negative date window", js: true do
       fill_in("q", with: "from:2000-1-1 to:1999-1-1")
       click_button("Filter!")
       page.assert_selector(".alert.alert-danger", count:1)

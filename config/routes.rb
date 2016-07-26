@@ -28,4 +28,6 @@ Rails.application.routes.draw do
   root 'high_voltage/pages#show', id: 'home'
 
   get 'submissions/:id/download' => "form_submissions#download_attachment"
+  get 'forms/:id/filtered_submissions' => "form_actions#render_filtered_partial"
+
 end

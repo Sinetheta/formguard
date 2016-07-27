@@ -17,7 +17,7 @@ class FormSubmissionsController < ApplicationController
       form_action.web_hook_dispatcher.deliver(:submission, payload.to_json)
       head 200
     else
-      head 500
+      head 422
     end
   end
 

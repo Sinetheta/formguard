@@ -48,8 +48,8 @@ RSpec.describe FormSubmissionsController, type: :controller do
 
       context "when save fails" do
         before(:each) { allow_any_instance_of(FormSubmission).to receive(:save).and_return(false) }
-        it "should return code 500" do
-          expect(subject.code).to eq("500")
+        it "should return code 422" do
+          expect(subject.code).to eq("422")
         end
 
       end

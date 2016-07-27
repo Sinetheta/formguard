@@ -24,7 +24,7 @@ class FormActionsController < ApplicationController
         .paginate(page: page, per_page: per_page)
     else
       @submissions = nil
-      flash.now[:bad_dates] = "'Until' date must come after 'From' date"
+      flash.now[:error] = "'Until' date must come after 'From' date"
     end
   end
 
@@ -68,7 +68,7 @@ class FormActionsController < ApplicationController
         .paginate(page: page, per_page: per_page)
     else
       @submissions = nil
-      flash.now[:bad_dates] = "'Until' date must come after 'From' date"
+      flash.now[:error] = "'Until' date must come after 'From' date"
     end
 
     render partial: 'form_actions/filtered_submissions'

@@ -1,2 +1,2 @@
 %li.submission{class: form_submission.read? ? "read" : "unread"}
-  =link_to("#{form_submission.created_at.strftime('%F')}", form_submission_path(form_submission), method: :put)
+  =link_to("#{form_submission.created_at.strftime('%F')}", form_action_form_submission_path(@form_action, form_submission), method: :put)

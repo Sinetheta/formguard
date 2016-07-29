@@ -47,7 +47,8 @@
       %div.col-sm-2
         %button.btn.btn-primary{type:"submit"} Filter!
 
-  %h3= @filtered_submissions.filters_applied
+  -if @filtered_submissions
+    %h3= @filtered_submissions.filters_applied
 
   = render "form_actions/filtered_submissions"
 

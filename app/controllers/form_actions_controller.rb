@@ -13,17 +13,7 @@ class FormActionsController < ApplicationController
     @form_owner = @form_action.team_id ? @form_action.team.name : @form_action.user.email
 
     @graph_data = generate_graph_data
-    page = params[:page] || 1
-    per_page = params[:per_page] || 25
-
-    begin
-      @filtered_submissions = FormSubmissionSearch
-        .new(params.slice(:q).merge(form_action: @form_action))
-    rescue FormSubmissionSearch::InvalidSearchError
-      flash.now[:error] = "'Until' date must come after 'From' date"
-    end
-
-    @submissions = @filtered_submissions&.search&.paginate(page: page, per_page: per_page) || nil
+    @submissions = execute_search
   end
 
   def create
@@ -54,18 +44,7 @@ class FormActionsController < ApplicationController
   end
 
   def render_filtered_partial
-    page = params[:page] || 1
-    per_page = params[:per_page] || 25
-
-    begin
-      @filtered_submissions = FormSubmissionSearch
-        .new(params.slice(:q).merge(form_action: @form_action))
-    rescue FormSubmissionSearch::InvalidSearchError
-      flash.now[:error] = "'Until' date must come after 'From' date"
-    end
-
-    @submissions = @filtered_submissions&.search&.paginate(page: page, per_page: per_page) || nil
-
+    @submissions = execute_search
     render partial: 'form_actions/filtered_submissions'
   end
 
@@ -81,6 +60,21 @@ class FormActionsController < ApplicationController
     p[:emails] = params[:emails].select{ |address| Devise.email_regexp.match(address) }
       .map{ |address| address.downcase }.uniq
     p
+  end
+
+  def execute_search
+    page = params[:page] || 1
+    per_page = params[:per_page] || 25
+
+    begin
+      filtered_submissions = FormSubmissionSearch
+        .new(params.slice(:q).merge(form_action: @form_action))
+    rescue FormSubmissionSearch::InvalidSearchError
+      flash.now[:error] = "'Until' date must come after 'From' date"
+    end
+
+    submissions = filtered_submissions&.search&.paginate(page: page, per_page: per_page) || nil
+    submissions
   end
 
   def generate_graph_data

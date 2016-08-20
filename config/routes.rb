@@ -6,6 +6,9 @@ Rails.application.routes.draw do
   resources :form_actions, path: 'forms' do
     resources :form_submissions, path: 's', only: [:create, :new]
     resources :web_hooks
+    member do
+      get 'embed'
+    end
   end
 
   resources :form_submissions, path: 'submissions', only: [:update]

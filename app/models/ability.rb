@@ -7,7 +7,7 @@ class Ability
     can :destroy, Membership, user_id: user.id
     can :create, [FormSubmission, WebHook, Team]
     can :read, [WebHook], user_id: user.id
-    can :read, [FormAction, WebHook], team: { id: user.team_ids }
+    can [:read, :embed], [FormAction, WebHook], team: { id: user.team_ids }
     can [:download_attachment, :update, :read], FormSubmission do |sub|
       user.form_actions.include? sub.form_action
     end

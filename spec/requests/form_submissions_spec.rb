@@ -14,7 +14,7 @@ RSpec.describe "FormSubmission reading", type: :request do
       before { login_as(user) }
 
       context "when submission-form is owned by user" do
-        subject { put "/submissions/#{submission.id}" }
+        subject { put "/forms/#{action.id}/s/#{submission.id}" }
 
         it { is_expected.to eq(200) }
 
@@ -24,14 +24,14 @@ RSpec.describe "FormSubmission reading", type: :request do
       end
 
       context "when submission-form is not owned by user" do
-        subject { put "/submissions/#{other_submission.id}" }
+        subject { put "/forms/#{other_action.id}/s/#{other_submission.id}" }
 
         it { is_expected.to eq(302) }
       end
     end
     context "when user not signed in" do
       before { logout(user) }
-      subject { put "/submissions/#{submission.id}" }
+      subject { put "/forms/#{action.id}/s/#{submission.id}" }
 
       it { is_expected.to redirect_to(new_user_session_path) }
     end
@@ -69,10 +69,10 @@ RSpec.describe "FormSubmission attachment download", type: :request do
 
   context "When user signed in" do
     before { login_as(user) }
-    describe "GET form_submissions#download_attachment" do
+    describe "GET form_submissions#download_attachment", focus:true do
 
       subject {
-        get "/submissions/#{submission.id}/download"
+        get "/forms/#{action.id}/s/#{submission.id}/download"
       }
 
       it { is_expected.to eq(200) }

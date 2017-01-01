@@ -1,5 +1,5 @@
 FactoryGirl.define do
-  factory :filtered_form_submission, class: FilteredFormSubmission do
+  factory :form_submission_search, class: FormSubmissionSearch do
 
     trait :start_date do
       start_date "2000-1-1"

@@ -1,5 +1,7 @@
-class FilteredFormSubmission
+class FormSubmissionSearch
   include ActiveModel::Model
+  class InvalidSearchError < StandardError
+  end
 
   attr_accessor :start_date, :end_date, :form_action, :filters_applied, :status, :q
   validates :start_date, :end_date, date: true, allow_nil: true
@@ -23,10 +25,13 @@ class FilteredFormSubmission
       merge({start_date: start_date, end_date: end_date, status: status})
 
     super
+    unless valid?
+      raise InvalidSearchError.new(self.errors.messages)
+    end
     @filters_applied ||= ""
   end
 
-  def submissions
+  def search
     submissions =
       FormSubmission
         .where(form_action_id: form_action.id)

@@ -2,6 +2,7 @@ class FormSubmissionsController < ApplicationController
   protect_from_forgery with: :null_session
 
   before_action :load_form_action
+  before_filter :load_form_action
 
   def create
     submission = @form_action.form_submissions.new(payload: payload)

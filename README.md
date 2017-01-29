@@ -1,5 +1,7 @@
 # Formguard
 
+[![Build Status](https://travis-ci.org/Sinetheta/formguard.svg?branch=master)](https://travis-ci.org/Sinetheta/formguard)
+
 ## Getting Started
 
 After you have cloned this repo, run this setup script to set up your machine

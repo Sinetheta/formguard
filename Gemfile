@@ -30,7 +30,7 @@ gem "sprockets", ">= 3.0.0"
 gem "sprockets-es6"
 gem "title"
 gem "uglifier"
-gem "d3-rails"
+gem "d3-rails", '3.5.17'
 gem "will_paginate", '~>3.1.0'
 gem "will_paginate-bootstrap"
 
